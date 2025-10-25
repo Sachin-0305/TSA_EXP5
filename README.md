@@ -1,5 +1,6 @@
 # Ex.No: 05  IMPLEMENTATION OF TIME SERIES ANALYSIS AND DECOMPOSITION
-### Date: 30.09.2025
+### Date: 4/10/2025
+
 
 ### AIM:
 To Illustrates how to perform time series analysis and decomposition on the monthly average temperature of a city/country and for airline passengers.
@@ -12,56 +13,76 @@ To Illustrates how to perform time series analysis and decomposition on the mont
 5. Display the overall results.
 
 ### PROGRAM:
+Import necessary libraries:
 ```
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import statsmodels.api as sm
 from statsmodels.tsa.seasonal import seasonal_decompose
-
-data = sm.datasets.sunspots.load_pandas().data
-
-data.head()
-
-decomposition = seasonal_decompose(data['SUNACTIVITY'], model='additive',period=12)
-
+```
+Load the dataset:
+```
+data = pd.read_csv('GoogleStockPrices.csv', parse_dates=['Date'], index_col='Date')
+print("Columns in dataset:", data.columns)
+X = data['Close']
+```
+Perform seasonal decomposition:
+```
+decomposition = seasonal_decompose(X, model='multiplicative', period=252)
+```
+Plot the decomposition:
+```
 plt.figure(figsize=(10, 12))
+```
+Original Data:
+```
 plt.subplot(411)
-plt.plot(data['SUNACTIVITY'], label='Sun Activity')
+plt.plot(X, label='Google Stock Closing Price')
 plt.legend(loc='upper left')
-plt.title('Sun Activity')
-
+plt.title('Google Stock Price (Close)')
+```
+Trend Plot:
+```
 plt.subplot(412)
 plt.plot(decomposition.trend, label='Trend', color='orange')
 plt.legend(loc='upper left')
-plt.title('Linear Trend Plot')
-
+plt.title('Trend Plot')
+```
+Seasonal Plot:
+```
 plt.subplot(413)
 plt.plot(decomposition.seasonal, label='Seasonal', color='green')
 plt.legend(loc='upper left')
 plt.title('Seasonality Plot')
-
+```
+Residual Plot:
+```
 plt.subplot(414)
 plt.plot(decomposition.resid, label='Residual', color='red')
 plt.legend(loc='upper left')
 plt.title('Residual Plot')
+
 plt.tight_layout()
 plt.show()
-
 ```
+
 ### OUTPUT:
 
-PLOTTING THE DATA:
-<img width="1225" height="368" alt="Screenshot 2025-09-22 152557" src="https://github.com/user-attachments/assets/2d0c3d93-0dfb-4904-9af4-ca14279cb509" />
+Original Time series data:
 
-SEASONAL PLOT REPRESENTATION :
-<img width="1278" height="368" alt="Screenshot 2025-09-22 152838" src="https://github.com/user-attachments/assets/2baac112-a015-4db6-9fc1-e6339315fe1e" />
+<img width="983" height="280" alt="image" src="https://github.com/user-attachments/assets/40e2c161-c92a-40b1-99d3-f0bfff55ccc9" />
 
-TREND PLOT REPRESENTATION :
-<img width="1284" height="376" alt="Screenshot 2025-09-22 152906" src="https://github.com/user-attachments/assets/2e2602ec-b0a0-4ed9-ae2c-30602fa38aed" />
+Linear Trend plot:
 
-OVERALL REPRESENTATION:
-<img width="1343" height="373" alt="Screenshot 2025-09-22 152949" src="https://github.com/user-attachments/assets/3918a00a-28b2-4f4d-9b4e-8b250f9053f4" />
+<img width="980" height="279" alt="image" src="https://github.com/user-attachments/assets/9cb1024c-9eeb-4f44-a75d-23003a15d2a1" />
+
+Seasonality plot:
+
+<img width="984" height="278" alt="image" src="https://github.com/user-attachments/assets/83810544-0394-4b0f-8e23-11098e96294a" />
+
+Residual plot:
+
+<img width="987" height="301" alt="image" src="https://github.com/user-attachments/assets/e25e5015-0796-4258-a3c3-f65322610742" />
 
 ### RESULT:
 Thus we have created the python code for the time series analysis and decomposition.
